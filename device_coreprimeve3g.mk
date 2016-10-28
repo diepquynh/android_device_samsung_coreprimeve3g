@@ -99,6 +99,10 @@ PRODUCT_PACKAGES += \
 	libgps_shim \
 	libstagefright_shim
 
+# Doze
+PRODUCT_PACKAGES += \
+	SamsungDoze
+
 # GPS
 GPS_CONFIGS := \
 	$(LOCAL_PATH)/configs/gps/gps.xml \
