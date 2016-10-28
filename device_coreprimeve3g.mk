@@ -12,20 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := device/samsung/grandprimeve3g
+LOCAL_PATH := device/samsung/coreprimeve3g
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
-$(call inherit-product-if-exists, vendor/samsung/grandprimeve3g/grandprimeve3g-vendor.mk)
+$(call inherit-product-if-exists, vendor/samsung/coreprimeve3g/coreprimeve3g-vendor.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Boot animation
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
+TARGET_SCREEN_HEIGHT := 800
+TARGET_SCREEN_WIDTH := 480
 
 # Bluetooth config
 BLUETOOTH_CONFIGS := \
@@ -121,7 +121,7 @@ ROOTDIR_FILES := \
 	$(LOCAL_PATH)/rootdir/init.board.rc \
 	$(LOCAL_PATH)/rootdir/init.sc8830.rc \
 	$(LOCAL_PATH)/rootdir/init.sc8830.usb.rc \
-	$(LOCAL_PATH)/rootdir/init.grandprimeve3g_base.rc \
+	$(LOCAL_PATH)/rootdir/init.coreprimeve3g.rc \
 	$(LOCAL_PATH)/rootdir/init.wifi.rc \
 	$(LOCAL_PATH)/rootdir/ueventd.sc8830.rc \
 	$(LOCAL_PATH)/rootdir/fstab.sc8830
@@ -186,8 +186,8 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := full_grandprimeve3g
-PRODUCT_DEVICE := grandprimeve3g
+PRODUCT_NAME := full_coreprimeve3g
+PRODUCT_DEVICE := coreprimeve3g
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
-PRODUCT_MODEL := SM-G531H
+PRODUCT_MODEL := SM-G361H
