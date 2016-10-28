@@ -14,12 +14,17 @@
 
 LOCAL_PATH := device/samsung/coreprimeve3g
 
+# Inherit from AOSP product configuration
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
+# Inherit from vendor tree
 $(call inherit-product-if-exists, vendor/samsung/coreprimeve3g/coreprimeve3g-vendor.mk)
+
+# Inherit from sprd-common device configuration
+$(call inherit-product, device/samsung/sprd-common/common.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
@@ -133,7 +138,11 @@ PRODUCT_COPY_FILES += \
 PERMISSIONS_XML_FILES := \
 	frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml \
 	frameworks/native/data/etc/android.hardware.camera.front.xml \
-	frameworks/native/data/etc/android.hardware.camera.xml
+	frameworks/native/data/etc/android.hardware.camera.xml \
+	frameworks/native/data/etc/android.hardware.sensor.proximity.xml \
+	frameworks/native/data/etc/android.hardware.sensor.light.xml \
+	frameworks/native/data/etc/android.software.midi.xml \
+	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml
 
 PRODUCT_COPY_FILES += \
 	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
