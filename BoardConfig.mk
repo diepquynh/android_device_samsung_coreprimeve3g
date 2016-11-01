@@ -54,7 +54,7 @@ TARGET_KERNEL_SOURCE := kernel/samsung/coreprimeve3g
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/samsung/coreprimeve3g/dt.img
 
 # RIL
-BOARD_RIL_CLASS += ../../../device/samsung/coreprimeve3g/ril
+BOARD_RIL_CLASS := ../../../device/samsung/coreprimeve3g/ril
 COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
 
 # FM radio
