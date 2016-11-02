@@ -33,6 +33,7 @@ on init
 
 on fs
     mount_all /fstab.sc8830
+    swapon_all /fstab.sc8830
     mount pstore pstore /sys/fs/pstore
     setprop ro.crypto.fuse_sdcard true
 	symlink /system/res /res
