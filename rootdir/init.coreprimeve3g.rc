@@ -438,45 +438,6 @@ on property:ro.debug_level=0x494d
 	write /sys/kernel/debug/tracing/events/timer/enable 1
 	write /sys/kernel/debug/tracing/events/cpufreq_interactive/cpufreq_interactive_setspeed/enable 1
 
-service napa_ts /system/bin/sh /system/etc/init_touch
-    class main
-    user root
-    group root
-    oneshot
-
-# GPS
-service gpsd /system/bin/gpsd -c /system/etc/gps.xml
-    class main
-    user gps
-    group system inet net_raw
-    ioprio be 0
-    setenv LD_SHIM_LIBS /system/bin/gpsd|libgps_shim.so
-
-service at_distributor /system/bin/at_distributor
-    class main
-    user root
-    group radio misc log
-
-# Run usb_portd to automatically launch atx when USB configuration changes.
-service usb_portd /system/bin/usb_portd
-    class main
-    oneshot
-    user system
-    group input vpn net_admin net_raw radio system sdcard_rw
-
-# Run atxd daemon, which needs group permissions to run in non-root mode.
-service atxd /system/bin/atxd
-    class main
-    user shell
-    group input vpn net_admin net_raw radio system sdcard_rw log
-
-# Run usbdev_mode to set USB configuration from uboot if bootargs usbdev_mode option is set.
-service usbdev_mode /system/bin/usbdev_mode
-    class main
-    oneshot
-    user system
-    group radio system
-
 #start watchdog daemon
 service watchdogd /system/bin/watchdogd
     class core
@@ -490,20 +451,6 @@ on nonencrypted
 
 on property:vold.decrypt=trigger_restart_framework
     setprop ro.fuse_sdcard ${persist.fuse_sdcard}
-
-# Run the script to rename the panic logs
-service apanic_rename /system/bin/sh /system/etc/apanic_rename.sh
-    class main
-    user root
-    group log sdcard_rw
-    oneshot
-
-service copy_cp_imgs /system/bin/sh /system/etc/copy_cp_imgs.sh
-    class main
-    oneshot
-    user root
-    disabled
-
 
 #Indicate boot complete to PM to complete PM initialization
 on property:dev.bootcomplete=1
@@ -539,10 +486,3 @@ on property:persist.sys.storage_preload=0
 
 on charger
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
-
-# SSWAP
-service swapon /sbin/sswap -s
-    class core
-    user root
-    group root
-    oneshot

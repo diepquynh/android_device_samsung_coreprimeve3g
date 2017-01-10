@@ -11,15 +11,9 @@ on early-init
 
     # coredump file will not be generated in release version
     write /proc/sys/kernel/core_pattern /dev/null
-# radio pipe
-    mkdir /dev/rpipe 0550 radio radio
-    pipe 666 /dev/rpipe/ril.vt.0
-    pipe 666 /dev/rpipe/ril.vt.1
-    pipe 666 /dev/rpipe/ril.vt.2
 
 on init
     mkdir /productinfo 0771 system system
-    export LD_SHIM_LIBS /system/lib/libstagefright_sprd_h264dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_h264enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_vpxdec.so|libstagefright_shim.so:/system/lib/hw/hwcomposer.sc8830.so|libhwc_shim.so
 
     symlink /dev/block/platform/sdio_emmc/by-name/PERSISTENT /dev/block/persistent
 
@@ -70,7 +64,7 @@ on early-boot
 
     # Support audio loopback test
     mkdir /dev/pipe 0755 system system
-    pipe 666 /dev/pipe/mmi.audio.ctrl
+    exec -- mkfifo /dev/pipe/mmi.audio.ctrl
     # Support audio parameter stored
 
     chmod 660 /proc/cpt/wdtirq
@@ -228,195 +222,6 @@ on property:ro.config.ksm.support=true
     write /sys/kernel/mm/ksm/sleep_millisecs 500
     write /sys/kernel/mm/ksm/run   1
 
-
-# SPRD: add for theme setting @{
-on property:universe_ui_support=true
-    start theme_init
-
-service theme_init /system/bin/theme_init.sh
-    disabled
-    oneshot
-# @}
-
-# virtual sdcard daemon running as media_rw (1023)
-service sdcard /system/bin/sdcard -u 1023 -g 1023 -l -r /data/media /mnt/shell/emulated
-    class late_start
-    oneshot
-
-service fuse_extSdCard /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d -f /mnt/media_rw/extSdCard /storage/extSdCard
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveA /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveA /storage/UsbDriveA
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveB /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveB /storage/UsbDriveB
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveC /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveC /storage/UsbDriveC
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveD /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveD /storage/UsbDriveD
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveE /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveE /storage/UsbDriveE
-    class late_start
-    disabled
-    oneshot
-
-service fuse_UsbDriveF /system/bin/sdcard -u 1023 -g 1023 -d -f /mnt/media_rw/UsbDriveF /storage/UsbDriveF
-    class late_start
-    disabled
-    oneshot
-
-#modem_control
-service modem_control  /system/bin/modem_control
-    class core
-    user root
-    group system radio shell
-    oneshot
-
-service modemd /system/bin/modemd
-    class core
-    user system
-    group system radio shell
-    oneshot
-
-service wcnd /system/bin/wcnd
-    class main
-    user system
-    group system shell wifi inet net_bt_stack
-    #oneshot
-service phoneserver_t /system/bin/phoneserver -m t
-    class core
-    user root
-    group radio system shell dhcp
-    disabled
-    oneshot
-
-service phoneserver_w /system/bin/phoneserver -m w
-    class core
-    user root
-    group radio system shell dhcp
-    disabled
-    oneshot
-
-service phoneserver_l /system/bin/phoneserver -m l
-    class core
-    user root
-    group radio system shell dhcp
-    disabled
-    oneshot
-
-service phoneserver_tl /system/bin/phoneserver -m tl
-    class core
-    user root
-    group radio system shell dhcp
-    disabled
-    oneshot
-
-service batterysrv /bin/batterysrv
-    class core
-    user system
-    group system
-    oneshot
-
-#service charge /bin/charge
-#    class charger
-#    user root
-#   oneshot
-
-#wcdma rild service
-service ril-daemon /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 0
-    class core
-    socket rild stream 660 root radio
-    socket rild-debug stream 660 radio system
-    disabled
-    user root
-    group radio cache inet misc audio sdcard_rw log shell
-    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
-
-service ril-daemon2 /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 1
-    class core
-    socket rild2 stream 660 root radio
-    socket rild-debug2 stream 660 radio system
-    disabled
-    user root
-    group radio cache inet misc audio sdcard_rw log shell
-    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
-
-service ril-daemon3 /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 2
-    class core
-    socket rild3 stream 660 root radio
-    socket rild-debug3 stream 660 radio system
-    disabled
-    user root
-    group radio cache inet misc audio sdcard_rw log shell
-    setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
-
-#nvitemd
-service nvitemd_td /system/bin/nvitemd t 0
-    class core
-    user system
-    disabled
-    group system radio shell
-    oneshot
-
-service nvitemd_w /system/bin/nvitemd w 0
-    class core
-    user system
-    group system radio shell
-    disabled
-    oneshot
-
-service nvitemd_l /system/bin/nvitemd l 0
-    class core
-    user system
-    group system radio shell
-    disabled
-    oneshot
-
-service slog /system/bin/slog -t
-    class main
-    user system
-    group system shell radio log sdcard_r sdcard_rw
-
-service apr /system/bin/collect_apr
-    class main
-    user system
-    disabled
-    oneshot
-
-service refnotify_td /system/bin/refnotify -t 0
-    class main
-    disabled
-    user system
-    group system radio shell
-    oneshot
-
-service refnotify_w /system/bin/refnotify -t 1
-    class main
-    disabled
-    user system
-    group system radio shell
-    oneshot
-
-service refnotify_l /system/bin/refnotify -t 2
-    class main
-    disabled
-    user system
-    group system radio shell
-    oneshot
-
 # For CTS of slog ->
 # This action is to make sure that the shell user
 # can also enable the slog daemon
@@ -458,75 +263,6 @@ on property:persist.modem.l.enable=1
     start refnotify_l
     start nvitemd_l
 
-#create symlink
-service smd_symlink /system/bin/ext_symlink.sh -u
-    user root
-    disabled
-    oneshot
-
-#data on
-service data_on /system/bin/ext_data.sh  -u
-    user root
-    disabled
-    oneshot
-
-#data off
-service data_off /system/bin/ext_data.sh  -d
-    user root
-    disabled
-    oneshot
-
-#enable_dns
-service enable_dns /system/bin/ext_data.sh -e
-    user root
-    disabled
-    oneshot
-
-#disable_dns
-service disable_dns /system/bin/ext_data.sh -c
-    user root
-    disabled
-    oneshot
-
-#kill td app
-service kill_td_phone /system/bin/ext_kill.sh  -t
-    user root
-    disabled
-    oneshot
-
-#kill w app
-service kill_w_phone /system/bin/ext_kill.sh  -w
-    user root
-    disabled
-    oneshot
-#kill lte app
-service kill_l_phone /system/bin/ext_kill.sh  -l
-    user root
-    disabled
-    oneshot
-
-#change owner
-service chown_service /system/bin/ext_chown.sh  -c
-    class main
-    user root
-    oneshot
-
-#set mac addr
-service set_mac /system/bin/ext_chown.sh  -e
-    user root
-    disabled
-    oneshot
-
-service  inputfreq  /system/bin/inputfreq.sh
-    user root
-    disabled
-    oneshot
-
-service  recoveryfreq  /system/bin/recoveryfreq.sh
-    user root
-    disabled
-    oneshot
-
     chmod 0666 /proc/pin_switch/iis0_sys_sel/cp0_iis0
     chmod 0666 /proc/pin_switch/iis0_sys_sel/cp1_iis0
     chmod 0666 /proc/pin_switch/iis0_sys_sel/cp2_iis0
@@ -536,19 +272,8 @@ service  recoveryfreq  /system/bin/recoveryfreq.sh
     chmod 0666 /proc/pin_switch/bt_iis_sys_sel/cp2_iis0
     chmod 0666 /proc/pin_switch/bt_iis_sys_sel/ap_iis0
 
-service autotest /system/bin/autotest
-    class main
-    disabled
-    user root
-    oneshot
-
 service bugreport /system/bin/dumpstate -d -p -B \
         -o /data/data/com.android.shell/files/bugreports/bugreport
     class late_start
     disabled
     oneshot
-
-service smd_symlink /system/bin/ext_symlink.sh -u
-	user root
-	disabled
-	oneshot
