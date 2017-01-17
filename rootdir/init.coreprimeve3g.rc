@@ -303,6 +303,9 @@ on boot
     chmod 0664 /sys/ponkey/ponkey_mode
 # END BCM QUICK BOOT FEATURE
 
+# SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
+    setprop ro.multisim.simslotcount 2
+
 # OTG Test
    chown system radio /sys/class/host_notify/usb_otg/booster
    chmod 0664 /sys/class/host_notify/usb_otg/booster
