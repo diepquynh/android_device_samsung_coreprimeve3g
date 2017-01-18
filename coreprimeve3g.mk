@@ -28,7 +28,6 @@ TARGET_SCREEN_WIDTH := 480
 
 # Media config
 MEDIA_CONFIGS := \
-	$(LOCAL_PATH)/media/media_codecs.xml \
 	$(LOCAL_PATH)/media/media_profiles.xml
 
 PRODUCT_COPY_FILES += \
