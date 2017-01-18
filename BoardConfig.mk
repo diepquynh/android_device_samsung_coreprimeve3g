@@ -18,6 +18,9 @@
 # Inherit from the proprietary version
 -include vendor/samsung/coreprimeve3g/BoardConfigVendor.mk
 
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/grandprimeve3g/bluetooth
+
 # Kernel
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
