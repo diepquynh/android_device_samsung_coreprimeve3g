@@ -18,4 +18,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-	$(LOCAL_DIR)/device_coreprimeve3g.mk
+	$(LOCAL_DIR)/coreprimeve3g.mk
