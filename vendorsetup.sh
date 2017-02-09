@@ -19,5 +19,9 @@
 # function: add_lunch_combo generic-eng
 
 for i in eng user userdebug; do
+<<<<<<< HEAD
 add_lunch_combo cm_coreprimeve3g-${i};
+=======
+add_lunch_combo lineage_grandprimeve3g-${i};
+>>>>>>> c75acf3... cm: Rebrand to Lineage
 done
