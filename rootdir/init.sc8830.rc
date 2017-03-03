@@ -139,8 +139,15 @@ on boot
    chmod 0664 /sys/class/power_supply/battery/stop_charge
 
 on charger
-    start console
-    start slog
+    mount ext4 /dev/block/mmcblk0p25 /system ro wait
+    exec sfsck /dev/block/mmcblk0p27 ext4
+    mount ext4 /dev/block/mmcblk0p27 /data nosuid,nodev,noatime wait,encryptable=footer,check
+
+service charger /charger
+    class charger
+    group log
+    critical
+    seclabel u:r:healthd:s0
 
 service poweroffalarm /system/bin/poweroff_alarm
     disabled
