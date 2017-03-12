@@ -23,8 +23,8 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 # Inherit from vendor tree
 $(call inherit-product-if-exists, vendor/samsung/coreprimeve3g/coreprimeve3g-vendor.mk)
 
-# Inherit from sprd-common device configuration
-$(call inherit-product, device/samsung/sprd-common/common.mk)
+# Inherit from scx30g_v2-common device configuration
+$(call inherit-product, device/samsung/scx30g_v2-common/common.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 

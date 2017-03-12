@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from SPRD common configs
--include device/samsung/sprd-common/BoardConfigCommon.mk
+# Inherit from scx35 common configs
+-include device/samsung/scx35-common/BoardConfigCommon.mk
 
 # Inherit from the proprietary version
 -include vendor/samsung/coreprimeve3g/BoardConfigVendor.mk
