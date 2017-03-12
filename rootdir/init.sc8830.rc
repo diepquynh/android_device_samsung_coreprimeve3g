@@ -11,15 +11,11 @@ on early-init
 
     # coredump file will not be generated in release version
     write /proc/sys/kernel/core_pattern /dev/null
-# radio pipe
-    mkdir /dev/rpipe 0550 radio radio
-    pipe 666 /dev/rpipe/ril.vt.0
-    pipe 666 /dev/rpipe/ril.vt.1
-    pipe 666 /dev/rpipe/ril.vt.2
 
 on init
+    stop ril-daemon
+
     mkdir /productinfo 0771 system system
-    export LD_SHIM_LIBS /system/lib/libstagefright_sprd_h264dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_h264enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4dec.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_mpeg4enc.so|libstagefright_shim.so:/system/lib/libstagefright_sprd_vpxdec.so|libstagefright_shim.so:/system/lib/hw/hwcomposer.sc8830.so|libhwc_shim.so
 
     symlink /dev/block/platform/sdio_emmc/by-name/PERSISTENT /dev/block/persistent
 
@@ -70,7 +66,11 @@ on early-boot
 
     # Support audio loopback test
     mkdir /dev/pipe 0755 system system
-    pipe 666 /dev/pipe/mmi.audio.ctrl
+
+service pipe_audio /system/bin/mkfifo /dev/pipe/mmi.audio.ctrl
+    class main
+    oneshot
+
     # Support audio parameter stored
 
     chmod 660 /proc/cpt/wdtirq
@@ -336,29 +336,26 @@ service batterysrv /bin/batterysrv
 #   oneshot
 
 #wcdma rild service
-service ril-daemon /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 0
+service sprd-ril-daemon /system/bin/rild_sprd -l /system/lib/libreference-ril_sp.so -m w -n 0
     class core
     socket rild stream 660 root radio
     socket rild-debug stream 660 radio system
-    disabled
     user root
     group radio cache inet misc audio sdcard_rw log shell
     setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
 
-service ril-daemon2 /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 1
+service sprd-ril-daemon2 /system/bin/rild_sprd -l /system/lib/libreference-ril_sp.so -m w -n 1
     class core
     socket rild2 stream 660 root radio
     socket rild-debug2 stream 660 radio system
-    disabled
     user root
     group radio cache inet misc audio sdcard_rw log shell
     setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
 
-service ril-daemon3 /system/bin/rild -l /system/lib/libreference-ril_sp.so -m w -n 2
+service sprd-ril-daemon3 /system/bin/rild_sprd -l /system/lib/libreference-ril_sp.so -m w -n 2
     class core
     socket rild3 stream 660 root radio
     socket rild-debug3 stream 660 radio system
-    disabled
     user root
     group radio cache inet misc audio sdcard_rw log shell
     setenv LD_SHIM_LIBS /system/lib/libril.so|libril_shim.so
