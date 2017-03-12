@@ -17,8 +17,8 @@ LOCAL_PATH := device/samsung/coreprimeve3g
 # Inherit from vendor tree
 $(call inherit-product-if-exists, vendor/samsung/coreprimeve3g/coreprimeve3g-vendor.mk)
 
-# Inherit from scx30g_v2-common device configuration
-$(call inherit-product, device/samsung/scx30g_v2-common/common.mk)
+# Inherit from scx30g2-common device configuration
+$(call inherit-product, device/samsung/scx30g2-common/common.mk)
 
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
@@ -26,29 +26,20 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 TARGET_SCREEN_HEIGHT := 800
 TARGET_SCREEN_WIDTH := 480
 
-# Media config
-MEDIA_CONFIGS := \
-	$(LOCAL_PATH)/media/media_profiles.xml
-
+# Keylayouts
 PRODUCT_COPY_FILES += \
-	$(foreach f,$(MEDIA_CONFIGS),$(f):system/etc/$(notdir $(f)))
+	$(LOCAL_PATH)/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl
+
+# Media config
+PRODUCT_PACKAGES += \
+	media_profiles.xml
 
 # Rootdir files
-ROOTDIR_FILES := \
-	$(LOCAL_PATH)/rootdir/init.sc8830.rc \
-	$(LOCAL_PATH)/rootdir/init.sc8830.usb.rc \
-	$(LOCAL_PATH)/rootdir/init.coreprimeve3g.rc \
-	$(LOCAL_PATH)/rootdir/ueventd.sc8830.rc
-
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(ROOTDIR_FILES),$(f):root/$(notdir $(f)))
-
-# Permissions
-PERMISSIONS_XML_FILES := \
-	frameworks/native/data/etc/android.hardware.sensor.compass.xml
-
-PRODUCT_COPY_FILES += \
-	$(foreach f,$(PERMISSIONS_XML_FILES),$(f):system/etc/permissions/$(notdir $(f)))
+PRODUCT_PACKAGES += \
+	init.sc8830.rc \
+	init.sc8830.usb.rc \
+	init.grandprimeve3g_base.rc \
+	ueventd.sc8830.rc
 
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_coreprimeve3g
