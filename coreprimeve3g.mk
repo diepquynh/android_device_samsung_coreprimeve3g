@@ -34,13 +34,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	media_profiles.xml
 
-# Rootdir files
-PRODUCT_PACKAGES += \
-	init.sc8830.rc \
-	init.sc8830.usb.rc \
-	init.grandprimeve3g_base.rc \
-	ueventd.sc8830.rc
-
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_coreprimeve3g
 PRODUCT_DEVICE := coreprimeve3g
