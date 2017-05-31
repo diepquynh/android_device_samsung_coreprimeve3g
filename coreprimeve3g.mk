@@ -26,8 +26,8 @@ $(call inherit-product, device/samsung/scx30g2-common/common.mk)
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
 # Boot animation
-TARGET_SCREEN_HEIGHT := 960
-TARGET_SCREEN_WIDTH := 540
+TARGET_SCREEN_HEIGHT := 800
+TARGET_SCREEN_WIDTH := 480
 
 # Media config
 PRODUCT_PACKAGES += \
@@ -45,4 +45,4 @@ PRODUCT_NAME := full_coreprimeve3g
 PRODUCT_DEVICE := coreprimeve3g
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
-PRODUCT_MODEL := SM-G531H
+PRODUCT_MODEL := SM-G361H

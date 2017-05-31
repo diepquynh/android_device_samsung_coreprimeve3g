@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from scx35 common configs
--include device/samsung/scx35-common/BoardConfigCommon.mk
+# Inherit from scx30g2 common configs
+-include device/samsung/scx30g2-common/BoardConfigCommon.mk
 
 # Inherit from the proprietary version
 -include vendor/samsung/coreprimeve3g/BoardConfigVendor.mk
@@ -47,3 +47,7 @@ TARGET_SCREEN_WIDTH := 480
 # Assert
 TARGET_OTA_ASSERT_DEVICE := SM-G361H,coreprimeve3g,coreprimeve3gxx
 
+# Dex-preopt
+WITH_DEXPREOPT := true
+WITH_DEXPREOPT_PIC := true
+WITH_DEXPREOPT_COMP := false

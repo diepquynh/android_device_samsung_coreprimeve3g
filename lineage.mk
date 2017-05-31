@@ -12,7 +12,7 @@ $(call inherit-product, $(LOCAL_PATH)/coreprimeve3g.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := coreprimeve3g
-PRODUCT_NAME := cm_coreprimeve3g
+PRODUCT_NAME := lineage_coreprimeve3g
 PRODUCT_BRAND := samsung
 PRODUCT_MODEL := SM-G361H
 PRODUCT_MANUFACTURER := samsung
