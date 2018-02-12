@@ -34,6 +34,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	media_profiles.xml
 
+PRODUCT_PROPERTY_OVERRIDES += \
+	media.stagefright.legacyencoder=true \
+	media.stagefright.less-secure=true
+
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_coreprimeve3g
 PRODUCT_DEVICE := coreprimeve3g
